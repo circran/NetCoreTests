@@ -23,14 +23,15 @@ namespace Employees.Api.Tests.Integration
                 {
                     builder.ConfigureServices(services =>
                     {
-                        var descriptor = services.SingleOrDefault(
-                            d => d.ServiceType == typeof(DbContextOptions<DataContext>));
+                        //-- Busco el DbContext por defecto
+                        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<DataContext>));
 
+                        // -- Remuevo el DbContext
                         if (descriptor != null)
                         {
                             services.Remove(descriptor);
                         }
-
+                        // -- Agrego el DbContext para testear
                         services.AddDbContext<DataContext>(options => { options.UseInMemoryDatabase("InMemoryDbForTesting"); });
                     });
                 });
