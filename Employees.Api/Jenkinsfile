@@ -1,0 +1,32 @@
+def path = 'Employees.Api\\Employees.Api.sln'
+
+pipeline {
+ agent any
+ stages {
+  stage('Checkout') {
+   steps {
+    git url: 'https://github.com/circran/NetCoreTests', branch: 'master'
+   }
+  }
+  stage('Restore') {
+   steps {
+    bat "dotnet restore " + path
+   }
+  }
+  stage('Clean') {
+   steps {
+    bat 'dotnet clean ' + path
+   }
+  }
+  stage('Tests') {
+   steps {
+    bat 'dotnet test ' + path
+   }
+  }
+  stage('Build') {
+   steps {
+    bat 'dotnet build --configuration Release ' + path
+   }
+  }
+ }
+}
