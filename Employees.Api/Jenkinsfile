@@ -1,25 +1,45 @@
-node {
-   stage('init') {
-      checkout scm
+pipeline {
+ agent any
+ stages {
+  stage('Clone') {
+   steps {
+    checkout scm
    }
-   stage('restore') {   
+  }
+   stage('restore') {
+   steps {
     sh '''
          dotnet restore Employees.Api/Employees.Api.sln
       '''
+   }
   }
-  stage('Tests') {   
+  stage('Tests') {
+   steps {
     sh '''
          dotnet test Employees.Api/Employees.Api.sln
       '''
+   }
   }
-  stage('Publish') {   
-  sh(script: "dotnet publish Employees.Api/Employees.Api.sln -c Release" , returnStdout: true) 
+  
+  stage('Build') {
+   steps {
+    sh '''
+         dotnet build --configuration Release Employees.Api/Employees.Api.sln
+      '''
+   }
+  }
+  stage('Publish') {
+   steps {
+       sh(script: "dotnet publish Employees.Api/Employees.Api.sln -c Release", returnStdout: true)
+   }
   }
    stage('deploy') {
-   azureWebAppPublish azureCredentialsId: 
-	  env.AZURE_CRED_ID,
+   steps {
+      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
       resourceGroup: env.RES_GROUP, 
 	  appName: env.WEB_APP, 
 	  sourceDirectory: "Employees.Api/bin/Release/netcoreapp3.1/publish/"
+	  }
   }
+ }
 }
