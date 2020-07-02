@@ -12,11 +12,6 @@ node {
          dotnet test Employees.Api/Employees.Api.sln
       '''
   }
-  stage('Build') {   
-    sh '''
-         dotnet build --configuration Release Employees.Api/Employees.Api.sln
-      '''
-  }
   stage('Publish') {   
        sh(script: "dotnet publish -c Release -o todo Employees.Api/Employees.Api.sln ", returnStdout: true)
   }
