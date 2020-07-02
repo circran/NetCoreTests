@@ -13,7 +13,9 @@ node {
       '''
   }
   stage('Publish') {   
-       sh(script: "dotnet publish -c Release -o todo Employees.Api/Employees.Api.sln ", returnStdout: true)
+  steps {
+  sh(script: "dotnet publish -c Release -o todo Employees.Api/Employees.Api.sln ", returnStdout: true)
+	}   
   }
    stage('deploy') {
    azureWebAppPublish azureCredentialsId: 
