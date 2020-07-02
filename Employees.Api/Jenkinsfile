@@ -1,42 +1,30 @@
 node {
    stage('init') {
-   steps{
       checkout scm
-	}
    }
    stage('restore') {   
-   steps {
     sh '''
          dotnet restore Employees.Api/Employees.Api.sln
       '''
-   }
   }
   stage('Tests') {   
-  steps {
     sh '''
          dotnet test Employees.Api/Employees.Api.sln
       '''
-   }
   }
   stage('Build') {   
-  steps {
     sh '''
          dotnet build --configuration Release Employees.Api/Employees.Api.sln
       '''
-   }
   }
   stage('Publish') {   
-  steps {
        sh(script: "dotnet publish -c Release -o todo Employees.Api/Employees.Api.sln ", returnStdout: true)
-   }
   }
    stage('deploy') {
-   steps {
    azureWebAppPublish azureCredentialsId: 
 	  env.AZURE_CRED_ID,
       resourceGroup: env.RES_GROUP, 
 	  appName: env.WEB_APP, 
 	  filePath: "todo"
-   }
   }
 }
