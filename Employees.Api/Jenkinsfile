@@ -13,15 +13,13 @@ node {
       '''
   }
   stage('Publish') {   
-  steps {
-  sh(script: "dotnet publish -c Release -o todo Employees.Api/Employees.Api.sln ", returnStdout: true)
-	}   
+  sh(script: "dotnet publish Employees.Api/Employees.Api.sln -c Release" , returnStdout: true) 
   }
    stage('deploy') {
    azureWebAppPublish azureCredentialsId: 
 	  env.AZURE_CRED_ID,
       resourceGroup: env.RES_GROUP, 
 	  appName: env.WEB_APP, 
-	  sourceDirectory: "todo/"
+	  sourceDirectory: "Employees.Api/bin/Release/netcoreapp3.1/publish/"
   }
 }
