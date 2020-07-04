@@ -1,4 +1,7 @@
 def PATH = 'Employees.Api/Employees.Api.sln'
+def RESOURCE_GROUP = 'freesmoke'
+def APP_NAME_DEV = 'freesmokeweb'
+def AZURE_CREDENTIAL_ID = 'freesmokeService'
 
 pipeline {
  agent any
@@ -31,9 +34,9 @@ pipeline {
   }
    stage('deploy') {
    steps {
-      azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
-      resourceGroup: env.RES_GROUP, 
-	  appName: env.WEB_APP, 
+      azureWebAppPublish azureCredentialsId: AZURE_CRED_ID,
+      resourceGroup: RES_GROUP, 
+	  appName: WEB_APP, 
 	  sourceDirectory: "./"
 	  }
   }
