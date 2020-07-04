@@ -1,3 +1,5 @@
+def PATH = 'Employees.Api\\Employees.Api.sln'
+
 pipeline {
  agent any
  stages {
@@ -8,24 +10,18 @@ pipeline {
   }
    stage('restore') {
    steps {
-    sh '''
-         dotnet restore Employees.Api/Employees.Api.sln
-      '''
+	sh(script: "dotnet restore " + PATH, returnStdout: true)
    }
   }
   stage('Tests') {
    steps {
-    sh '''
-         dotnet test Employees.Api/Employees.Api.sln
-      '''
+	sh(script: "dotnet test " + PATH, returnStdout: true)
    }
   }
   
   stage('Build') {
    steps {
-    sh '''
-         dotnet build --configuration Release Employees.Api/Employees.Api.sln
-      '''
+    sh(script: "dotnet build --configuration Release " + PATH, returnStdout: true)
    }
   }
   stage('Publish') {
@@ -38,7 +34,7 @@ pipeline {
       azureWebAppPublish azureCredentialsId: env.AZURE_CRED_ID,
       resourceGroup: env.RES_GROUP, 
 	  appName: env.WEB_APP, 
-	  sourceDirectory: "Employees.Api/bin/Release/netcoreapp3.1/publish/"
+	  sourceDirectory: "./"
 	  }
   }
  }
