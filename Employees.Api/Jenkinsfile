@@ -1,4 +1,4 @@
-def PATH = 'Employees.Api\\Employees.Api.sln'
+def PATH = 'Employees.Api/Employees.Api.sln'
 
 pipeline {
  agent any
