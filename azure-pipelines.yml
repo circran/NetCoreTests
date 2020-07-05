@@ -31,5 +31,15 @@ steps:
     command: 'test'
     projects: '$(solution)'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
 
-
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(601de230-f5d6-4d47-bef7-346a062c4c42)'
+    appType: 'webApp'
+    WebAppName: 'tobaccofreesmoke'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
