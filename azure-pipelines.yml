@@ -17,15 +17,16 @@ variables:
 
 steps:
 
-- task: Restore
+- task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
     projects: '$(solution)'
-- task: Build
+- task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: '$(solution)'
-- task: Tests
+
+- task: DotNetCoreCLI@2
   inputs:
     command: 'test'
     projects: '$(solution)'
